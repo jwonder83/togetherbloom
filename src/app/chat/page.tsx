@@ -9,6 +9,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { mockUsers } from '../../utils/mockUsers';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 type ChatRoom = {
   id: string;
@@ -144,7 +146,7 @@ export default function ChatListPage() {
     fetchChatRooms();
 
     // 실시간 메시지 구독
-    let subscription;
+    let subscription: RealtimeChannel | undefined;
     if (user) {
       subscription = supabase
         .channel('chat_rooms_changes')

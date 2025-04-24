@@ -9,6 +9,8 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { mockUsers, generateMockMessages, generateVirtualUserResponse } from '../../../utils/mockUsers';
+import { createClient } from '@supabase/supabase-js';
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 type Message = {
   id: string;
@@ -205,7 +207,7 @@ export default function ChatRoomPage({ params }: { params: { id: string } }) {
     fetchChatRoomData();
 
     // 실제 채팅방인 경우에만 실시간 메시지 구독
-    let subscription;
+    let subscription: RealtimeChannel | undefined;
     
     if (currentRoomId && !currentRoomId.startsWith('room-')) {
       subscription = supabase

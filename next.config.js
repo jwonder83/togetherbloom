@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'export',
+  basePath: '/community-growth-app',
   images: {
     remotePatterns: [
       {
@@ -10,7 +12,8 @@ const nextConfig = {
         pathname: '**',
       },
     ],
-    domains: ['i.pravatar.cc', 'robohash.org', 'images.unsplash.com']
+    domains: ['i.pravatar.cc', 'robohash.org', 'images.unsplash.com'],
+    unoptimized: true,
   }
 }
 
