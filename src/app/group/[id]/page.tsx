@@ -76,6 +76,13 @@ const groups = [
   },
 ];
 
+// 정적 내보내기를 위한 경로 데이터 생성
+export function generateStaticParams() {
+  return groups.map((group) => ({
+    id: group.id,
+  }));
+}
+
 // 동적 메타데이터 생성
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const group = groups.find(g => g.id === params.id);

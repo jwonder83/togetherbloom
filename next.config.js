@@ -9,8 +9,17 @@ const nextConfig = {
         hostname: 'robohash.org',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '**',
+      },
     ],
-    domains: ['i.pravatar.cc', 'robohash.org', 'images.unsplash.com'],
     unoptimized: true // GitHub Pages에서 이미지 최적화 관련 문제 해결
   },
   // GitHub Pages 배포를 위한 설정
