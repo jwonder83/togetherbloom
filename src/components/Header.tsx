@@ -254,12 +254,11 @@ export default function Header() {
         <div className="flex items-center space-x-3">
           {/* 검색 버튼 */}
           <button 
-            className="search-button flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 md:mr-1"
+            className="search-button flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 md:mr-1 hover:bg-gray-200"
             aria-label="검색"
             onClick={toggleSearch}
             style={{
-              color: styles.navy,
-              hover: { backgroundColor: `${styles.navy}1A` }
+              color: styles.navy
             }}
           >
             <FaSearch size={16} />
@@ -284,11 +283,10 @@ export default function Header() {
           {user && (
             <Link 
               href="/notifications" 
-              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 relative"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 hover:bg-gray-200 relative"
               aria-label="알림"
               style={{
-                color: styles.navy,
-                hover: { backgroundColor: `${styles.navy}1A` }
+                color: styles.navy
               }}
             >
               <FaBell size={18} />
@@ -330,12 +328,11 @@ export default function Header() {
             </button>
           ) : (
             <button 
-              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 hover:bg-gray-200"
               aria-label="메뉴"
               onClick={toggleMenu}
               style={{
-                color: styles.navy,
-                hover: { backgroundColor: `${styles.navy}1A` }
+                color: styles.navy
               }}
             >
               <FaBars size={18} />
@@ -397,11 +394,10 @@ export default function Header() {
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-xl font-bold" style={{ color: styles.navy }}>메뉴</h2>
             <button 
-              className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200"
+              className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-200"
               onClick={() => setIsMenuOpen(false)}
               style={{
-                color: styles.navy,
-                hover: { backgroundColor: `${styles.navy}1A` }
+                color: styles.navy
               }}
             >
               <FaTimes size={18} />
@@ -465,12 +461,11 @@ export default function Header() {
               </Link>
               <Link 
                 href="/register" 
-                className="flex items-center justify-center font-medium py-3 px-4 rounded-xl border transition-all duration-200 w-full"
+                className="flex items-center justify-center font-medium py-3 px-4 rounded-xl border transition-all duration-200 w-full hover:bg-blue-50"
                 onClick={() => setIsMenuOpen(false)}
                 style={{ 
                   color: styles.navy,
-                  borderColor: styles.navy,
-                  hover: { backgroundColor: `${styles.navy}0A` }
+                  borderColor: styles.navy
                 }}
               >
                 <FaUserPlus className="mr-2" size={16} />
@@ -484,14 +479,13 @@ export default function Header() {
               <li>
                 <Link 
                   href="/" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
                     pathname === '/' ? 'bg-opacity-15 font-medium' : ''
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                   style={{ 
                     color: styles.darkText,
-                    backgroundColor: pathname === '/' ? `${styles.navy}10` : 'transparent',
-                    hover: { backgroundColor: styles.lightBg }
+                    backgroundColor: pathname === '/' ? `${styles.navy}10` : 'transparent'
                   }}
                 >
                   <FaHome className="mr-3" style={{ color: styles.navy }} />
@@ -501,14 +495,13 @@ export default function Header() {
               <li>
                 <Link 
                   href="/category" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
                     pathname === '/category' ? 'bg-opacity-15 font-medium' : ''
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                   style={{ 
                     color: styles.darkText,
-                    backgroundColor: pathname === '/category' ? `${styles.navy}10` : 'transparent',
-                    hover: { backgroundColor: styles.lightBg }
+                    backgroundColor: pathname === '/category' ? `${styles.navy}10` : 'transparent'
                   }}
                 >
                   <FaList className="mr-3" style={{ color: styles.navy }} />
@@ -518,14 +511,13 @@ export default function Header() {
               <li>
                 <Link 
                   href="/chat" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
                     pathname === '/chat' ? 'bg-opacity-15 font-medium' : ''
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                   style={{ 
                     color: styles.darkText,
-                    backgroundColor: pathname === '/chat' ? `${styles.navy}10` : 'transparent',
-                    hover: { backgroundColor: styles.lightBg }
+                    backgroundColor: pathname === '/chat' ? `${styles.navy}10` : 'transparent'
                   }}
                 >
                   <FaComments className="mr-3" style={{ color: styles.navy }} />
@@ -535,14 +527,13 @@ export default function Header() {
               <li>
                 <Link 
                   href="/match" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
                     pathname === '/match' ? 'bg-opacity-15 font-medium' : ''
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                   style={{ 
                     color: styles.darkText,
-                    backgroundColor: pathname === '/match' ? `${styles.navy}10` : 'transparent',
-                    hover: { backgroundColor: styles.lightBg }
+                    backgroundColor: pathname === '/match' ? `${styles.navy}10` : 'transparent'
                   }}
                 >
                   <FaUsers className="mr-3" style={{ color: styles.navy }} />
@@ -552,14 +543,13 @@ export default function Header() {
               <li>
                 <Link 
                   href="/group" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
                     pathname === '/group' ? 'bg-opacity-15 font-medium' : ''
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                   style={{ 
                     color: styles.darkText,
-                    backgroundColor: pathname === '/group' ? `${styles.navy}10` : 'transparent',
-                    hover: { backgroundColor: styles.lightBg }
+                    backgroundColor: pathname === '/group' ? `${styles.navy}10` : 'transparent'
                   }}
                 >
                   <FaUsers className="mr-3" style={{ color: styles.navy }} />
@@ -570,7 +560,7 @@ export default function Header() {
                 <li>
                   <Link 
                     href="/my-groups" 
-                    className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 ${
+                    className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-yellow-100 ${
                       pathname === '/my-groups' ? 'bg-opacity-25 font-medium' : ''
                     }`}
                     onClick={() => setIsMenuOpen(false)}
@@ -579,8 +569,7 @@ export default function Header() {
                       backgroundColor: pathname === '/my-groups' 
                         ? `${styles.gold}30` 
                         : `${styles.gold}15`,
-                      border: `1px solid ${styles.gold}`,
-                      hover: { backgroundColor: `${styles.gold}33` }
+                      border: `1px solid ${styles.gold}`
                     }}
                   >
                     <FaUsers className="mr-3" style={{ color: styles.gold }} />
@@ -594,15 +583,15 @@ export default function Header() {
           {user && (
             <div className="mt-auto pt-4">
               <button 
-                className="flex items-center py-3 px-4 w-full rounded-xl transition-all duration-200"
+                className="flex items-center py-3 px-4 rounded-lg hover:bg-red-50 transition-all duration-200 w-full text-left"
                 onClick={handleLogout}
-                style={{ 
-                  color: '#E53E3E',
-                  hover: { backgroundColor: 'rgba(229, 62, 62, 0.1)' }
+                style={{
+                  color: styles.red,
+                  marginTop: 'auto'
                 }}
               >
-                <FaSignOutAlt className="mr-3" />
-                로그아웃
+                <FaSignOutAlt className="mr-3" size={18} />
+                <span>로그아웃</span>
               </button>
             </div>
           )}
