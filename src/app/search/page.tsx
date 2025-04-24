@@ -228,8 +228,6 @@ function SearchResults() {
               onChange={(e) => setFilters({...filters, minMembers: parseInt(e.target.value)})}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               aria-label="최소 회원 수 선택"
-              aria-valuemin="0"
-              aria-valuemax="300"
             />
             <div className="flex justify-between text-xs text-text-tertiary mt-1">
               <span>0</span>
