@@ -366,10 +366,10 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             <div>
               <div className="mb-4 p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-center mb-2">
-                  <div className="text-3xl font-bold text-primary mr-3">{member.reviewScore}</div>
+                  <div className="text-3xl font-bold text-primary mr-3">{member.reviewScore || 0}</div>
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} size={16} className={i < Math.floor(member.reviewScore) ? 'text-yellow-400' : 'text-gray-300'} />
+                      <FaStar key={i} size={16} className={i < Math.floor(member.reviewScore || 0) ? 'text-yellow-400' : 'text-gray-300'} />
                     ))}
                   </div>
                 </div>

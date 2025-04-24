@@ -186,7 +186,14 @@ export default function NotificationsPage() {
   // 시간 형식화
   const formatTime = (timestamp: string) => {
     try {
-      return formatDistanceToNow(new Date(timestamp), { 
+      // timestamp가 유효한지 확인
+      if (!timestamp) return '';
+      
+      const date = new Date(timestamp);
+      // 유효한 날짜인지 확인
+      if (isNaN(date.getTime())) return '';
+      
+      return formatDistanceToNow(date, { 
         addSuffix: true,
         locale: ko
       });
