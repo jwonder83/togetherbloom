@@ -48,7 +48,6 @@ export default function MatchingUserCard({ user }: MatchingUserCardProps) {
             <div 
               className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-primary"
               style={{
-                clipPath: `polygon(0 0, 100% 0, 100% 100%, 0% 100%)`,
                 clipPath: `path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 ${user.compatibilityScore >= 100 ? '' : `M 24 24 L ${20 + 20 * Math.cos((user.compatibilityScore / 100) * Math.PI * 2)} ${20 + 20 * Math.sin((user.compatibilityScore / 100) * Math.PI * 2)} L 24 24`}')`,
               }}
             ></div>
