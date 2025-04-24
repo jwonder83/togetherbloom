@@ -28,7 +28,16 @@ const nextConfig = {
   // distDir: 'out',
   basePath: process.env.NODE_ENV === 'production' ? '/togethebloom' : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? '/togethebloom/' : '',
-  trailingSlash: true
+  trailingSlash: true,
+  // 클라이언트 컴포넌트 경로 설정
+  exportPathMap: async function () {
+    return {
+      '/': { page: '/' },
+      '/category': { page: '/category' },
+      '/group': { page: '/group' },
+      '/profile': { page: '/profile' }
+    };
+  }
 }
 
 module.exports = nextConfig 
