@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  output: 'export',
   distDir: '.next',
   images: {
     remotePatterns: [
@@ -27,7 +27,12 @@ const nextConfig = {
         pathname: '**',
       },
     ],
-    unoptimized: false
+    unoptimized: true
+  },
+  // 명시적으로 정적 생성에서 제외할 경로를 지정
+  // 이렇게 하면 generateStaticParams()가 없는 동적 라우트도 허용됨
+  experimental: {
+    disableStaticExport: false,
   }
 }
 
