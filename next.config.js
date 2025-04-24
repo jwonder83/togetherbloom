@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone',
+  distDir: '.next',
   images: {
     remotePatterns: [
       {
@@ -24,7 +26,8 @@ const nextConfig = {
         hostname: 'randomuser.me',
         pathname: '**',
       },
-    ]
+    ],
+    unoptimized: false
   }
 }
 

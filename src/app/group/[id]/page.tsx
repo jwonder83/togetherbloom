@@ -77,7 +77,7 @@ const groups = [
 ];
 
 // 정적 내보내기를 위한 경로 데이터 생성
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return groups.map((group) => ({
     id: group.id,
   }));
