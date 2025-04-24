@@ -259,7 +259,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
               }`}
               onClick={() => setActiveTab('reviews')}
             >
-              후기 ({member.reviewCount})
+              후기 ({member.reviewCount || 0})
             </button>
           </div>
         </div>
@@ -373,7 +373,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
                     ))}
                   </div>
                 </div>
-                <p className="text-sm text-gray-500">총 {member.reviewCount}개의 후기</p>
+                <p className="text-sm text-gray-500">총 {member.reviewCount || 0}개의 후기</p>
               </div>
               
               <div className="space-y-4">
@@ -408,9 +408,9 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
                     </p>
                   </div>
                 ))}
-                {member.reviewCount > 3 && (
+                {(member.reviewCount || 0) > 3 && (
                   <button className="w-full py-3 text-center border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50">
-                    더 보기 ({member.reviewCount - 3})
+                    더 보기 ({(member.reviewCount || 0) - 3})
                   </button>
                 )}
               </div>
