@@ -6,7 +6,11 @@
   "installCommand": "npm install",
   "build": {
     "env": {
-      "NEXT_STATIC_EXPORT": "false"
+      "NEXT_STATIC_EXPORT": "false",
+      "NEXT_PUBLIC_ENABLE_DYNAMIC_ROUTES": "true"
     }
-  }
+  },
+  "routes": [
+    { "src": "/chat/[id]", "dest": "/chat/[id]" }
+  ]
 } 
