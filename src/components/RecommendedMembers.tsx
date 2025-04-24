@@ -100,6 +100,21 @@ export default function RecommendedMembers() {
     return keywordIcons[keyword as keyof typeof keywordIcons] || <FaUser />;
   };
 
+  // 배경색에 따른 TailwindCSS 클래스 매핑
+  const getBgColorClass = (color?: string) => {
+    switch(color) {
+      case '#007AFF': return 'bg-blue-500';
+      case '#FF9500': return 'bg-orange-500';
+      case '#34C759': return 'bg-green-500';
+      case '#FF2D55': return 'bg-pink-500';
+      case '#5856D6': return 'bg-indigo-500';
+      case '#5AC8FA': return 'bg-sky-400';
+      case '#AF52DE': return 'bg-purple-500';
+      case '#FF3B30': return 'bg-red-500';
+      default: return 'bg-gray-300';
+    }
+  };
+
   return (
     <div className="bg-card py-6 px-4 mt-2">
       <div className="flex justify-between items-center mb-5">
@@ -117,8 +132,7 @@ export default function RecommendedMembers() {
             className="flex flex-col items-center group"
           >
             <div 
-              className="avatar-apple w-16 h-16 group-hover:border-primary transition-all transform group-hover:scale-105 overflow-hidden"
-              style={{ backgroundColor: member.bgColor }}
+              className={`avatar-apple w-16 h-16 group-hover:border-primary transition-all transform group-hover:scale-105 overflow-hidden ${getBgColorClass(member.bgColor)}`}
             >
               <Image
                 src={member.profileImage}

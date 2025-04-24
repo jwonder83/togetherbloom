@@ -38,8 +38,8 @@ export default function NewChatPage() {
         // 실제 사용자 + 가상 사용자 
         const virtualProfiles = mockUsers.map(virtualUser => ({
           id: virtualUser.id,
-          nickname: virtualUser.nickname,
-          avatar_url: virtualUser.avatar_url,
+          nickname: virtualUser.name,
+          avatar_url: virtualUser.profileImage,
           is_virtual: true
         }));
         

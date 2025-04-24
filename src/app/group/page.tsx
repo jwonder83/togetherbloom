@@ -134,14 +134,28 @@ export default function GroupsPage() {
               <button
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                aria-label="검색어 지우기"
               >
-                <FaTimes />
+                <FaTimes aria-hidden="true" />
+                <span className="sr-only">검색어 지우기</span>
               </button>
             )}
           </div>
           
           {/* 카테고리 선택 */}
-          <div className="flex overflow-x-auto no-scrollbar py-2 space-x-2">
+          <div className="flex space-x-3 md:space-x-5 overflow-x-auto lg:overflow-visible py-1 md:py-2">
+            <button
+              onClick={() => setSelectedCategory('전체')}
+              className={`px-3 md:px-4 py-1.5 md:py-2 text-sm md:text-base rounded-full border transition-all flex items-center whitespace-nowrap ${
+                selectedCategory === '전체'
+                  ? 'bg-[#23395B] text-white border-[#23395B]'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              <FaFilter className="mr-1.5" />
+              <span className="sr-only">카테고리 필터링</span>
+              전체
+            </button>
             {categories.map((category) => (
               <button
                 key={category}

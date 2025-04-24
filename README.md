@@ -29,23 +29,47 @@
 - **프론트엔드**: Next.js, TypeScript, TailwindCSS, React Icons
 - **상태 관리**: React Hooks
 - **스타일**: Tailwind CSS
+- **백엔드/데이터베이스**: Supabase
 
 ## 설치 및 실행 방법
 
 1. 패키지 설치
+
 ```bash
 npm install
 ```
 
-2. 개발 서버 실행
+2. 환경 변수 설정
+
+`.env.local` 파일을 프로젝트 루트 디렉토리에 생성하고 다음 변수를 설정합니다:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+NEXT_PUBLIC_REDIRECT_URL=http://localhost:3000/auth/callback
+```
+
+3. 개발 서버 실행
+
 ```bash
 npm run dev
 ```
 
-3. 브라우저에서 확인
-```
+4. 브라우저에서 확인
+
+```text
 http://localhost:3000
 ```
+
+## Vercel 배포 방법
+
+1. [Vercel](https://vercel.com)에 가입하고 GitHub 계정과 연결합니다.
+2. 새 프로젝트를 생성하고 이 리포지토리를 선택합니다.
+3. 환경 변수 설정:
+   - `NEXT_PUBLIC_SUPABASE_URL`: Supabase 프로젝트 URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase 익명 키
+   - `NEXT_PUBLIC_REDIRECT_URL`: 배포된 사이트의 콜백 URL (예: [https://your-app.vercel.app/auth/callback](https://your-app.vercel.app/auth/callback))
+4. 배포를 시작합니다.
 
 ## 디자인 가이드
 

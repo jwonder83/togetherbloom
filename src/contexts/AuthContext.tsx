@@ -55,10 +55,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // 소셜 로그인 함수
   const signInWithOAuth = async (provider: Provider) => {
+    // window 객체를 안전하게 참조하도록 수정
+    const redirectTo = typeof window !== 'undefined' 
+      ? `${window.location.origin}/auth/callback`
+      : process.env.NEXT_PUBLIC_REDIRECT_URL || '/auth/callback';
+      
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`
+        redirectTo
       }
     });
     return { error };

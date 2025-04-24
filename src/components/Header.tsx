@@ -28,7 +28,7 @@ const styles = {
   menuShadow: '0 0 40px rgba(0, 0, 0, 0.15)'
 };
 
-export default function Header() {
+export default function Header({ title }: { title?: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

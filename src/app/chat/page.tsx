@@ -120,8 +120,8 @@ export default function ChatListPage() {
             last_message_time: new Date().toISOString(),
             other_user: {
               id: virtualUser.id,
-              nickname: virtualUser.nickname,
-              avatar_url: virtualUser.avatar_url
+              nickname: virtualUser.name,
+              avatar_url: virtualUser.profileImage
             },
             unread_count: 0,
             is_virtual: true

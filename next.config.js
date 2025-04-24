@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  distDir: '.next',
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
@@ -9,17 +11,29 @@ const nextConfig = {
         hostname: 'robohash.org',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+        pathname: '**',
+      },
     ],
-    domains: ['i.pravatar.cc', 'robohash.org', 'images.unsplash.com'],
-    unoptimized: true // GitHub Pages에서 이미지 최적화 관련 문제 해결
+    unoptimized: true
   },
-  // GitHub Pages 배포를 위한 설정
-  output: 'export',
-  // 'out' 디렉토리는 기본값이므로 명시적으로 지정하지 않아도 됩니다
-  // distDir: 'out',
-  basePath: process.env.NODE_ENV === 'production' ? '/togethebloom' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/togethebloom/' : '',
-  trailingSlash: true
+  // 동적 라우트 허용을 위한 설정
+  experimental: {
+    serverActions: true,
+    serverComponentsExternalPackages: []
+  }
 }
 
 module.exports = nextConfig 

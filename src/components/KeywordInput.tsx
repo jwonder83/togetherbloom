@@ -71,6 +71,8 @@ export default function KeywordInput({ category }: KeywordInputProps) {
                 <button
                   className="ml-2 text-gray-500"
                   onClick={() => removeKeyword(keyword)}
+                  aria-label={`${keyword} 키워드 삭제`}
+                  title={`${keyword} 키워드 삭제`}
                 >
                   <FaTimes size={12} />
                 </button>

@@ -48,15 +48,21 @@ export default function CreateGroupPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* 모임 이미지 업로드 */}
           <div className="flex flex-col items-center mb-6">
+            <label htmlFor="group-image" className="block text-sm font-medium text-gray-700 mb-1">
+              모임 대표 이미지 (선택사항)
+            </label>
             <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer relative overflow-hidden">
               <FaCamera size={24} className="text-gray-500" />
               <input 
                 type="file" 
+                id="group-image"
+                name="group-image"
                 className="absolute inset-0 opacity-0 cursor-pointer" 
                 accept="image/*"
+                aria-label="모임 대표 이미지 업로드"
               />
             </div>
-            <p className="text-sm text-gray-500 mt-2">모임 대표 이미지 (선택사항)</p>
+            <p className="text-sm text-gray-500 mt-2">클릭하여 이미지를 선택하세요</p>
           </div>
           
           {/* 모임명 */}

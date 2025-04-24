@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, ChangeEvent } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Link from 'next/link';
@@ -61,7 +61,8 @@ const dummyGroups = [
   },
 ];
 
-export default function SearchPage() {
+// 검색 결과 컴포넌트
+function SearchResults() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const query = searchParams.get('q') || '';
@@ -137,190 +138,222 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
+    <div className="p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-text-primary mb-2">검색</h1>
+        <p className="text-text-secondary text-sm">
+          {query 
+            ? `'${query}' 검색 결과 (${searchResults.length}개)`
+            : '모임 이름, 설명 또는 키워드로 검색하세요'
+          }
+        </p>
+      </div>
       
-      <div className="p-4 md:p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-text-primary mb-2">검색</h1>
-          <p className="text-text-secondary text-sm">
-            {query 
-              ? `'${query}' 검색 결과 (${searchResults.length}개)`
-              : '모임 이름, 설명 또는 키워드로 검색하세요'
-            }
-          </p>
-        </div>
-        
-        {/* 검색 폼 */}
-        <form onSubmit={handleSearch} className="mb-6">
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                <FaSearch className="text-text-quaternary" />
-              </div>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="모임 이름, 관심사 등으로 검색"
-                className="input-apple py-3 pl-10 pr-4 w-full"
-                autoFocus={!query}
-              />
-              {searchTerm && (
-                <button 
-                  type="button" 
-                  className="absolute inset-y-0 right-3 flex items-center"
-                  onClick={() => setSearchTerm('')}
-                >
-                  <FaTimes className="text-text-quaternary" />
-                </button>
-              )}
+      {/* 검색 폼 */}
+      <form onSubmit={handleSearch} className="mb-6">
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <FaSearch className="text-text-quaternary" />
             </div>
-            <button 
-              type="submit"
-              className="btn-apple-pill px-5"
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="모임 이름, 관심사 등으로 검색"
+              className="input-apple py-3 pl-10 pr-4 w-full"
+              autoFocus={!query}
+            />
+            {searchTerm && (
+              <button 
+                type="button" 
+                className="absolute inset-y-0 right-3 flex items-center"
+                onClick={() => setSearchTerm('')}
+                aria-label="검색어 지우기"
+                title="검색어 지우기"
+              >
+                <FaTimes className="text-text-quaternary" />
+              </button>
+            )}
+          </div>
+          <button 
+            type="submit"
+            className="btn-apple-pill px-5"
+          >
+            검색
+          </button>
+          <button 
+            type="button"
+            className="btn-apple-secondary-pill flex items-center justify-center w-12"
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            aria-label="필터"
+          >
+            <FaFilter />
+          </button>
+        </div>
+      </form>
+      
+      {/* 필터 패널 */}
+      {isFilterOpen && (
+        <div className="bg-moduleBg rounded-xl p-4 mb-6 shadow-apple-sm">
+          <h2 className="text-lg font-semibold mb-3">검색 필터</h2>
+          
+          <div className="mb-4">
+            <label htmlFor="category-select" className="block text-sm font-medium mb-2">카테고리</label>
+            <select 
+              id="category-select"
+              value={filters.category} 
+              onChange={(e) => setFilters({...filters, category: e.target.value})} 
+              className="input-apple w-full py-2"
+              aria-label="카테고리 선택"
             >
-              검색
+              <option value="">모든 카테고리</option>
+              <option value="개발">개발</option>
+              <option value="운동">운동</option>
+              <option value="독서">독서</option>
+              <option value="요리">요리</option>
+              <option value="음악">음악</option>
+            </select>
+          </div>
+          
+          <div className="mb-4">
+            <label htmlFor="min-members-range" className="block text-sm font-medium mb-2">최소 회원 수</label>
+            <input 
+              id="min-members-range"
+              type="range" 
+              min={0}
+              max={300}
+              step={50}
+              value={filters.minMembers} 
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const value = parseInt(e.target.value);
+                setFilters({...filters, minMembers: value});
+              }}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              aria-label="최소 회원 수 선택"
+            />
+            <div className="flex justify-between text-xs text-text-tertiary mt-1">
+              <span>0</span>
+              <span>50</span>
+              <span>100</span>
+              <span>150</span>
+              <span>200</span>
+              <span>250</span>
+              <span>300+</span>
+            </div>
+            <div className="text-center mt-2 text-sm font-medium">
+              {filters.minMembers > 0 ? `${filters.minMembers}명 이상` : '제한 없음'}
+            </div>
+          </div>
+          
+          <div className="flex gap-2 justify-end">
+            <button 
+              type="button"
+              onClick={resetFilters}
+              className="btn-apple-secondary-pill"
+            >
+              초기화
             </button>
             <button 
               type="button"
-              className="btn-apple-secondary-pill flex items-center justify-center w-12"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              aria-label="필터"
+              onClick={applyFilters}
+              className="btn-apple-pill"
             >
-              <FaFilter />
+              적용하기
             </button>
           </div>
-        </form>
-        
-        {/* 필터 패널 */}
-        {isFilterOpen && (
-          <div className="bg-moduleBg rounded-xl p-4 mb-6 shadow-apple-sm">
-            <h3 className="font-medium mb-3 text-text-primary">필터</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm text-text-secondary mb-1">카테고리</label>
-                <select 
-                  className="input-apple w-full"
-                  value={filters.category}
-                  onChange={(e) => setFilters({...filters, category: e.target.value})}
-                >
-                  <option value="">전체 카테고리</option>
-                  <option value="개발">개발</option>
-                  <option value="운동">운동</option>
-                  <option value="독서">독서</option>
-                  <option value="요리">요리</option>
-                  <option value="음악">음악</option>
-                  <option value="예술">예술</option>
-                  <option value="여행">여행</option>
-                  <option value="게임">게임</option>
-                  <option value="커리어">커리어</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm text-text-secondary mb-1">최소 멤버 수</label>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="300" 
-                  step="10"
-                  value={filters.minMembers}
-                  onChange={(e) => setFilters({...filters, minMembers: parseInt(e.target.value)})}
-                  className="w-full"
-                />
-                <div className="flex justify-between text-xs text-text-tertiary">
-                  <span>0</span>
-                  <span>{filters.minMembers}명</span>
-                  <span>300+</span>
+        </div>
+      )}
+      
+      {/* 검색 결과 */}
+      {searchResults.length > 0 ? (
+        <div className="space-y-4">
+          {searchResults.map((group) => (
+            <Link 
+              key={group.id} 
+              href={`/group/${group.id}`}
+              className="block bg-card rounded-xl overflow-hidden shadow-apple-sm hover:shadow-apple-md transition-shadow"
+            >
+              <div className="flex flex-col md:flex-row h-full">
+                <div className="md:w-1/3 h-48 md:h-auto relative">
+                  <Image 
+                    src={group.imageUrl} 
+                    alt={group.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
+                  />
                 </div>
-              </div>
-              
-              <div className="flex justify-end gap-2 pt-2">
-                <button 
-                  type="button" 
-                  className="btn-apple-secondary-pill px-4"
-                  onClick={resetFilters}
-                >
-                  초기화
-                </button>
-                <button 
-                  type="button" 
-                  className="btn-apple-pill px-4"
-                  onClick={applyFilters}
-                >
-                  적용하기
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {/* 검색 결과 목록 */}
-        {searchResults.length > 0 ? (
-          <div className="space-y-4">
-            {searchResults.map((group, index) => (
-              <Link href={`/group/${group.id}`} key={group.id} className="block search-result-item" style={{ opacity: 0 }}>
-                <div className="bg-card rounded-xl overflow-hidden shadow-apple-sm hover:shadow-apple transition-shadow">
-                  <div className="relative h-40 w-full">
-                    <Image
-                      src={group.imageUrl}
-                      alt={group.name}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent">
-                      <div className="absolute bottom-2 left-3 bg-black/30 text-white text-xs px-2 py-1 rounded-full">
-                        {group.category}
-                      </div>
+                <div className="p-4 md:p-5 flex-1 flex flex-col">
+                  <div className="mb-2 flex items-center">
+                    <span className="text-xs font-medium text-text-tertiary bg-moduleBg px-2 py-0.5 rounded-full">
+                      {group.category}
+                    </span>
+                    <div className="flex items-center ml-3 text-text-tertiary text-sm">
+                      <FaUsers className="mr-1 text-xs" />
+                      <span>{group.memberCount}명</span>
+                    </div>
+                    <div className="flex items-center ml-3 text-text-tertiary text-sm">
+                      <FaStar className="mr-1 text-xs text-yellow-500" />
+                      <span>{group.rating}</span>
                     </div>
                   </div>
                   
-                  <div className="p-4">
-                    <h3 className="font-semibold text-text-primary text-lg mb-1">{group.name}</h3>
-                    <p className="text-text-secondary text-sm mb-3 line-clamp-2">{group.description}</p>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="flex items-center text-text-tertiary text-sm">
-                          <FaUsers className="mr-1 text-text-quaternary" />
-                          <span>{group.memberCount}</span>
-                        </div>
-                        <div className="flex items-center text-text-tertiary text-sm">
-                          <FaStar className="mr-1 text-yellow-500" />
-                          <span>{group.rating}</span>
-                        </div>
-                      </div>
-                      <button 
-                        className="btn-apple-secondary-small flex items-center justify-center"
-                        aria-label="모임 참여"
-                      >
-                        <FaUserPlus size={14} />
-                        <span className="ml-1 text-xs">참여</span>
-                      </button>
+                  <h2 className="text-lg font-semibold mb-1 text-text-primary">{group.name}</h2>
+                  <p className="text-text-secondary text-sm mb-3 line-clamp-2">{group.description}</p>
+                  
+                  <div className="mt-auto">
+                    <div className="flex flex-wrap gap-1">
+                      {group.tags.map((tag, index) => (
+                        <span 
+                          key={index} 
+                          className="text-xs bg-gray-100 text-text-tertiary px-2 py-0.5 rounded-full"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-10 bg-moduleBg rounded-xl">
+          <FaSearch className="mx-auto text-text-quaternary mb-3 text-3xl" />
+          <h3 className="text-lg font-medium text-text-primary mb-1">검색 결과가 없습니다</h3>
+          <p className="text-text-tertiary text-sm mb-4">다른 검색어나 필터를 시도해보세요.</p>
+          <Link href="/group" className="btn-apple-pill inline-flex items-center">
+            <FaUserPlus className="mr-2" />
+            모든 모임 보기
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// 메인 페이지 컴포넌트
+export default function SearchPage() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <Suspense fallback={
+        <div className="p-4 md:p-6">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-text-primary mb-2">검색</h1>
+            <p className="text-text-secondary text-sm">검색 중...</p>
+          </div>
+          <div className="animate-pulse space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-card rounded-xl overflow-hidden shadow-apple-sm h-64"></div>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-moduleBg rounded-full mb-4">
-              <FaSearch className="text-text-tertiary" size={24} />
-            </div>
-            <h3 className="text-text-primary font-medium mb-2">검색 결과가 없습니다</h3>
-            <p className="text-text-secondary text-sm mb-4">다른 검색어나 필터 조건으로 시도해보세요</p>
-            <button 
-              onClick={resetFilters}
-              className="btn-apple-secondary-pill px-4"
-            >
-              필터 초기화
-            </button>
-          </div>
-        )}
-      </div>
+        </div>
+      }>
+        <SearchResults />
+      </Suspense>
     </div>
   );
 } 
