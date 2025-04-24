@@ -219,13 +219,16 @@ function SearchResults() {
           <div className="mb-4">
             <label htmlFor="min-members-range" className="block text-sm font-medium mb-2">최소 회원 수</label>
             <input 
-              type="range" 
               id="min-members-range"
+              type="range" 
               min={0}
               max={300}
               step={50}
               value={filters.minMembers} 
-              onChange={(e) => setFilters({...filters, minMembers: parseInt(e.target.value)})}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const value = parseInt(e.target.value);
+                setFilters({...filters, minMembers: value});
+              }}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
               aria-label="최소 회원 수 선택"
             />
