@@ -22,22 +22,14 @@ const nextConfig = {
     ],
     unoptimized: true // GitHub Pages에서 이미지 최적화 관련 문제 해결
   },
-  // GitHub Pages 배포를 위한 설정
-  output: 'export',
-  // 'out' 디렉토리는 기본값이므로 명시적으로 지정하지 않아도 됩니다
-  // distDir: 'out',
-  basePath: process.env.NODE_ENV === 'production' ? '/togethebloom' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/togethebloom/' : '',
-  trailingSlash: true,
-  // 클라이언트 컴포넌트 경로 설정
-  exportPathMap: async function () {
-    return {
-      '/': { page: '/' },
-      '/category': { page: '/category' },
-      '/group': { page: '/group' },
-      '/profile': { page: '/profile' }
-    };
-  }
+  // 개발 모드에서는 정적 내보내기 비활성화
+  output: undefined,
+  // GitHub Pages 배포를 위한 설정 - 프로덕션에서만 적용
+  ...(process.env.NODE_ENV === 'production' ? {
+    basePath: '/togethebloom',
+    assetPrefix: '/togethebloom/',
+    trailingSlash: true,
+  } : {})
 }
 
 module.exports = nextConfig 

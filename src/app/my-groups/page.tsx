@@ -61,22 +61,6 @@ const myGroups = [
   }
 ];
 
-// 고급 UI 스타일 정의
-const styles = {
-  navy: '#23395B',
-  gold: '#FFD700',
-  darkNavy: '#152238',
-  lightGold: '#FFE566',
-  lightBg: '#F7F9FC',
-  darkText: '#1A2A3A',
-  lightText: '#EAEEF3',
-  gradient: 'linear-gradient(135deg, #23395B, #345689)',
-  cardShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
-  hoverShadow: '0 12px 40px rgba(0, 0, 0, 0.18)',
-  buttonShadow: '0 4px 12px rgba(35, 57, 91, 0.3)',
-  animation: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out'
-};
-
 export default function MyGroupsPage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
@@ -101,12 +85,12 @@ export default function MyGroupsPage() {
   // 로딩 중이거나 로그인되지 않은 경우
   if (isLoading || !user) {
     return (
-      <div className="flex flex-col min-h-screen" style={{ background: styles.lightBg }}>
+      <div className="flex flex-col min-h-screen bg-[#F7F9FC]">
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full animate-pulse" style={{ background: `${styles.navy}` }}></div>
-            <p className="text-lg animate-pulse" style={{ color: styles.darkText }}>잠시만 기다려주세요...</p>
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full animate-pulse bg-[#23395B]"></div>
+            <p className="text-lg animate-pulse text-[#1A2A3A]">잠시만 기다려주세요...</p>
           </div>
         </main>
       </div>
@@ -114,75 +98,48 @@ export default function MyGroupsPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen" style={{ background: styles.lightBg }}>
+    <div className="flex flex-col min-h-screen bg-[#F7F9FC]">
       <Header />
       
       <main className="flex-1">
         {/* 페이지 헤더 */}
-        <div className="py-8 px-5" style={{ 
-          background: styles.gradient,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
-        }}>
-          <h1 className="text-3xl font-bold tracking-tight mb-2" style={{ color: styles.lightText }}>
+        <div className="py-8 px-5 navy-gold-gradient shadow-lg">
+          <h1 className="text-3xl font-bold tracking-tight mb-2 text-[#EAEEF3]">
             내 모임
           </h1>
-          <p className="text-lg opacity-90" style={{ color: styles.lightText }}>
+          <p className="text-lg opacity-90 text-[#EAEEF3]">
             내가 참여 중인 모임과 만든 모임을 확인하세요
           </p>
         </div>
         
         {/* 탭 메뉴 */}
-        <div className="sticky top-0 z-10 px-4 py-1" style={{ 
-          background: 'white', 
-          boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
-        }}>
+        <div className="sticky top-0 z-10 px-4 py-1 bg-white shadow-md">
           <div className="flex border-b">
             <button
               onClick={() => setActiveTab('all')}
-              className={`py-4 px-6 font-medium text-base relative transition-all duration-300 ease-in-out`}
-              style={{ 
-                color: activeTab === 'all' ? styles.navy : '#6B7280',
-                fontWeight: activeTab === 'all' ? '600' : '500',
-              }}
+              className={`py-4 px-6 text-base relative custom-transition ${activeTab === 'all' ? 'tab-active' : 'tab-inactive'}`}
             >
               전체 모임
               {activeTab === 'all' && (
-                <span className="absolute bottom-0 left-0 w-full h-1 rounded-t-md" style={{ 
-                  background: styles.gold,
-                  boxShadow: '0 0 8px rgba(255, 215, 0, 0.5)'
-                }}></span>
+                <span className="tab-indicator"></span>
               )}
             </button>
             <button
               onClick={() => setActiveTab('created')}
-              className={`py-4 px-6 font-medium text-base relative transition-all duration-300 ease-in-out`}
-              style={{ 
-                color: activeTab === 'created' ? styles.navy : '#6B7280',
-                fontWeight: activeTab === 'created' ? '600' : '500',
-              }}
+              className={`py-4 px-6 text-base relative custom-transition ${activeTab === 'created' ? 'tab-active' : 'tab-inactive'}`}
             >
               내가 만든 모임
               {activeTab === 'created' && (
-                <span className="absolute bottom-0 left-0 w-full h-1 rounded-t-md" style={{ 
-                  background: styles.gold,
-                  boxShadow: '0 0 8px rgba(255, 215, 0, 0.5)'
-                }}></span>
+                <span className="tab-indicator"></span>
               )}
             </button>
             <button
               onClick={() => setActiveTab('joined')}
-              className={`py-4 px-6 font-medium text-base relative transition-all duration-300 ease-in-out`}
-              style={{ 
-                color: activeTab === 'joined' ? styles.navy : '#6B7280',
-                fontWeight: activeTab === 'joined' ? '600' : '500',
-              }}
+              className={`py-4 px-6 text-base relative custom-transition ${activeTab === 'joined' ? 'tab-active' : 'tab-inactive'}`}
             >
               참여 중인 모임
               {activeTab === 'joined' && (
-                <span className="absolute bottom-0 left-0 w-full h-1 rounded-t-md" style={{ 
-                  background: styles.gold,
-                  boxShadow: '0 0 8px rgba(255, 215, 0, 0.5)'
-                }}></span>
+                <span className="tab-indicator"></span>
               )}
             </button>
           </div>
@@ -192,28 +149,20 @@ export default function MyGroupsPage() {
         <section className="px-5 py-8">
           {filteredGroups.length === 0 ? (
             <div className="py-16 flex flex-col items-center">
-              <div className="w-20 h-20 flex items-center justify-center mb-6 rounded-full" 
-                style={{ 
-                  background: `linear-gradient(135deg, ${styles.navy}, #4A6FA5)`,
-                  boxShadow: '0 8px 20px rgba(35, 57, 91, 0.25)'
-                }}>
-                <FaUsers size={32} color="white" />
+              <div className="w-20 h-20 flex items-center justify-center mb-6 rounded-full navy-gold-gradient shadow-lg">
+                <FaUsers size={32} className="text-white" />
               </div>
-              <p className="text-xl font-semibold mb-3" style={{ color: styles.darkText }}>
+              <p className="text-xl font-semibold mb-3 text-[#1A2A3A]">
                 아직 {activeTab === 'created' ? '만든' : activeTab === 'joined' ? '참여한' : ''} 모임이 없어요
               </p>
-              <p className="text-base text-center max-w-sm mb-8" style={{ color: '#6B7280' }}>
+              <p className="text-base text-center max-w-sm mb-8 text-gray-500">
                 {activeTab === 'created' 
                   ? '새로운 모임을 만들고 관심사가 비슷한 사람들과 함께하세요' 
                   : '관심 있는 모임에 참여하고 새로운 인연을 만들어보세요'}
               </p>
               <Link 
                 href={activeTab === 'created' ? '/create-group' : '/group'} 
-                className="py-3 px-6 rounded-full flex items-center text-white font-medium transition-transform hover:scale-105 active:scale-95"
-                style={{ 
-                  background: `linear-gradient(135deg, ${styles.navy}, #4A6FA5)`,
-                  boxShadow: styles.buttonShadow
-                }}
+                className="py-3 px-6 rounded-full flex items-center text-white font-medium navy-gold-gradient button-shadow transition-transform hover:scale-105 active:scale-95"
               >
                 <FaPlus className="mr-2" size={14} />
                 {activeTab === 'created' ? '모임 만들기' : '모임 찾아보기'}
@@ -223,15 +172,9 @@ export default function MyGroupsPage() {
             <div className="space-y-8">
               {filteredGroups.map((group) => (
                 <Link key={group.id} href={`/group/${group.id}`} className="block">
-                  <div className="p-1 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    style={{
-                      background: 'white',
-                      boxShadow: styles.cardShadow,
-                      transition: styles.animation
-                    }}>
+                  <div className="p-1 rounded-xl bg-white card-shadow hover:hover-shadow custom-transition hover:scale-[1.02] active:scale-[0.98]">
                     <div className="p-5 rounded-xl overflow-hidden flex items-start border border-gray-100">
-                      <div className="w-20 h-20 rounded-xl overflow-hidden relative shadow-lg flex-shrink-0"
-                        style={{ border: group.isOwner ? `2px solid ${styles.gold}` : '' }}>
+                      <div className={`w-20 h-20 rounded-xl overflow-hidden relative shadow-lg flex-shrink-0 ${group.isOwner ? 'border-2 border-[#FFD700]' : ''}`}>
                         <Image 
                           src={group.image} 
                           alt={group.name} 
@@ -240,55 +183,39 @@ export default function MyGroupsPage() {
                           className="w-full h-full object-cover"
                         />
                         {group.isOwner && (
-                          <div className="absolute top-0 right-0 p-1 rounded-bl-md"
-                            style={{ background: styles.gold }}>
-                            <FaCrown size={12} color={styles.darkNavy} />
+                          <div className="absolute top-0 right-0 p-1 rounded-bl-md bg-[#FFD700]">
+                            <FaCrown size={12} className="text-[#152238]" />
                           </div>
                         )}
                       </div>
                       <div className="ml-5 flex-1">
                         <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-bold text-lg" style={{ color: styles.darkText }}>{group.name}</h3>
+                          <h3 className="font-bold text-lg text-[#1A2A3A]">{group.name}</h3>
                           {group.isOwner ? (
-                            <span className="text-sm font-semibold px-3 py-1 rounded-full"
-                              style={{ 
-                                color: styles.darkNavy,
-                                background: `${styles.gold}4D`,
-                                border: `1px solid ${styles.gold}`
-                              }}>
+                            <span className="text-sm font-semibold px-3 py-1 rounded-full text-[#152238] bg-[#FFD70080] border border-[#FFD700]">
                               관리자
                             </span>
                           ) : (
-                            <span className="text-sm font-medium px-3 py-1 rounded-full"
-                              style={{ 
-                                color: styles.navy,
-                                background: `${styles.navy}1A`,
-                                border: `1px solid ${styles.navy}33`
-                              }}>
+                            <span className="text-sm font-medium px-3 py-1 rounded-full text-[#23395B] bg-[#23395B1A] border border-[#23395B33]">
                               멤버
                             </span>
                           )}
                         </div>
                         
-                        <p className="text-sm mb-3 line-clamp-1" style={{ color: '#6B7280' }}>
+                        <p className="text-sm mb-3 line-clamp-1 text-gray-500">
                           {group.description}
                         </p>
                         
                         <div className="flex flex-wrap gap-2 mb-3">
                           {group.keywords.map((keyword, idx) => (
-                            <span key={idx} className="text-xs px-3 py-1 rounded-full"
-                              style={{
-                                background: `${styles.navy}0D`,
-                                color: styles.navy,
-                                border: `1px solid ${styles.navy}26`
-                              }}>
+                            <span key={idx} className="text-xs px-3 py-1 rounded-full bg-[#23395B0D] text-[#23395B] border border-[#23395B26]">
                               {keyword}
                             </span>
                           ))}
                         </div>
                         
                         <div className="flex items-center justify-between text-xs">
-                          <div className="flex items-center" style={{ color: '#6B7280' }}>
+                          <div className="flex items-center text-gray-500">
                             <div className="flex items-center mr-4">
                               <FaUsers className="mr-1" size={12} />
                               <span>{group.participants}명</span>
@@ -298,7 +225,7 @@ export default function MyGroupsPage() {
                               <span>{group.location}</span>
                             </div>
                           </div>
-                          <div className="flex items-center text-xs font-medium" style={{ color: styles.navy }}>
+                          <div className="flex items-center text-xs font-medium text-[#23395B]">
                             <span>자세히 보기</span>
                             <FaChevronRight size={10} className="ml-1" />
                           </div>

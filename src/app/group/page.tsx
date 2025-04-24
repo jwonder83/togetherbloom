@@ -134,6 +134,8 @@ export default function GroupsPage() {
               <button
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                aria-label="검색어 지우기"
+                title="검색어 지우기"
               >
                 <FaTimes />
               </button>

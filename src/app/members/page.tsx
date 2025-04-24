@@ -221,6 +221,8 @@ export default function MembersPage() {
               <button 
                 className={`w-8 h-8 flex items-center justify-center rounded ${viewMode === 'grid' ? 'bg-blue-50 text-primary' : 'text-gray-500'}`}
                 onClick={() => setViewMode('grid')}
+                aria-label="그리드 보기"
+                title="그리드 보기"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7"></rect>
@@ -232,6 +234,8 @@ export default function MembersPage() {
               <button 
                 className={`w-8 h-8 flex items-center justify-center rounded ${viewMode === 'list' ? 'bg-blue-50 text-primary' : 'text-gray-500'}`}
                 onClick={() => setViewMode('list')}
+                aria-label="리스트 보기"
+                title="리스트 보기"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="8" y1="6" x2="21" y2="6"></line>
@@ -260,6 +264,8 @@ export default function MembersPage() {
               <button 
                 className="absolute inset-y-0 right-12 flex items-center text-gray-400"
                 onClick={() => setSearchQuery('')}
+                aria-label="검색어 지우기"
+                title="검색어 지우기"
               >
                 <FaTimes />
               </button>
@@ -267,6 +273,8 @@ export default function MembersPage() {
             <button 
               className="absolute inset-y-0 right-3 flex items-center text-gray-500"
               onClick={() => setShowFilter(!showFilter)}
+              aria-label="필터 표시"
+              title="필터 표시"
             >
               <FaFilter size={18} />
             </button>
@@ -310,6 +318,8 @@ export default function MembersPage() {
                   setSearchQuery('');
                   setSelectedCategory('전체');
                 }}
+                aria-label="필터 초기화"
+                title="필터 초기화"
               >
                 필터 초기화
               </button>
@@ -423,6 +433,8 @@ export default function MembersPage() {
                   setSearchQuery('');
                   setSelectedCategory('전체');
                 }}
+                aria-label="필터 초기화"
+                title="필터 초기화"
               >
                 필터 초기화
               </button>

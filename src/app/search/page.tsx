@@ -171,6 +171,8 @@ export default function SearchPage() {
                   type="button" 
                   className="absolute inset-y-0 right-3 flex items-center"
                   onClick={() => setSearchTerm('')}
+                  aria-label="검색어 지우기"
+                  title="검색어 지우기"
                 >
                   <FaTimes className="text-text-quaternary" />
                 </button>
@@ -205,6 +207,8 @@ export default function SearchPage() {
                   className="input-apple w-full"
                   value={filters.category}
                   onChange={(e) => setFilters({...filters, category: e.target.value})}
+                  aria-label="카테고리 선택"
+                  title="카테고리 선택"
                 >
                   <option value="">전체 카테고리</option>
                   <option value="개발">개발</option>
@@ -229,6 +233,8 @@ export default function SearchPage() {
                   value={filters.minMembers}
                   onChange={(e) => setFilters({...filters, minMembers: parseInt(e.target.value)})}
                   className="w-full"
+                  aria-label={`최소 멤버 수 (현재: ${filters.minMembers}명)`}
+                  title={`최소 멤버 수 (현재: ${filters.minMembers}명)`}
                 />
                 <div className="flex justify-between text-xs text-text-tertiary">
                   <span>0</span>
