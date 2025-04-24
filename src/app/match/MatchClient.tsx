@@ -29,34 +29,37 @@ export default function MatchClient({ users, searchParams }: MatchClientProps) {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <Header title="맞춤 추천" />
+      <Header />
       
-      <div className="px-4 py-3 bg-white flex items-center gap-3 border-b">
-        <FaFilter className="text-gray-500" />
-        <button
-          onClick={() => setActiveFilter('all')}
-          className={`px-3 py-1 rounded-full text-sm ${
-            activeFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          전체
-        </button>
-        <button
-          onClick={() => setActiveFilter('online')}
-          className={`px-3 py-1 rounded-full text-sm ${
-            activeFilter === 'online' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          온라인
-        </button>
-        <button
-          onClick={() => setActiveFilter('compatibility')}
-          className={`px-3 py-1 rounded-full text-sm ${
-            activeFilter === 'compatibility' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
-          }`}
-        >
-          높은 호환성
-        </button>
+      <div className="bg-white border-b">
+        <h1 className="text-xl font-bold px-4 py-3">맞춤 추천</h1>
+        <div className="px-4 py-3 flex items-center gap-3 border-t">
+          <FaFilter className="text-gray-500" />
+          <button
+            onClick={() => setActiveFilter('all')}
+            className={`px-3 py-1 rounded-full text-sm ${
+              activeFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            전체
+          </button>
+          <button
+            onClick={() => setActiveFilter('online')}
+            className={`px-3 py-1 rounded-full text-sm ${
+              activeFilter === 'online' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            온라인
+          </button>
+          <button
+            onClick={() => setActiveFilter('compatibility')}
+            className={`px-3 py-1 rounded-full text-sm ${
+              activeFilter === 'compatibility' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+          >
+            높은 호환성
+          </button>
+        </div>
       </div>
 
       <main className="flex-1 p-4">

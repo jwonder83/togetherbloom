@@ -168,8 +168,8 @@ export default function MatchingSuggestion({
                 <div className="flex items-center mb-4">
                   <div className="relative">
                     <Image 
-                      src={user.avatar_url} 
-                      alt={user.nickname}
+                      src={user.profileImage} 
+                      alt={user.name}
                       width={60} 
                       height={60} 
                       className="rounded-full"
@@ -181,14 +181,14 @@ export default function MatchingSuggestion({
                     )}
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-lg font-semibold">{user.nickname}</h3>
+                    <h3 className="text-lg font-semibold">{user.name}</h3>
                     <div className="flex mt-1">
                       {getStarRating(user.compatibilityScore)}
                     </div>
                   </div>
                 </div>
                 
-                <p className="text-gray-600 mb-4 text-sm line-clamp-2">{user.bio}</p>
+                <p className="text-gray-600 mb-4 text-sm line-clamp-2">{user.introduction}</p>
                 
                 <div className="mb-4">
                   <h4 className="text-sm font-medium text-gray-700 mb-2">관심사</h4>

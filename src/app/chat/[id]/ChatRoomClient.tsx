@@ -108,16 +108,18 @@ export default function ChatRoomClient({ params }: { params: { id: string } }) {
           console.log("추출된 가상 사용자 ID:", virtualId);
           
           if (virtualId) {
-            const virtualUser = mockUsers.find(u => u.id === virtualId);
+            // 타입 호환성 문제 해결을 위해 as any 사용
+            const virtualUser = mockUsers.find(u => u.id === virtualId) as any;
             
             if (virtualUser && isMounted) {
-              console.log("가상 사용자 찾음:", virtualUser.nickname);
+              // 사용자 정보 로깅 (name 속성 사용)
+              console.log("가상 사용자 찾음:", virtualUser.name);
               setIsVirtual(true);
               setVirtualUserId(virtualId);
               setOtherUser({
                 id: virtualUser.id,
-                nickname: virtualUser.nickname,
-                avatar_url: virtualUser.avatar_url
+                nickname: virtualUser.name || '',
+                avatar_url: virtualUser.profileImage || null
               });
               
               // 가상 대화 메시지 가져오기
@@ -172,13 +174,16 @@ export default function ChatRoomClient({ params }: { params: { id: string } }) {
           return;
         }
 
+        // 배열의 첫 번째 요소에서 profiles 속성 추출
         const otherParticipant = participants?.[0]?.profiles;
         
         if (otherParticipant && isMounted) {
+          // 타입 캐스팅을 통해 타입 오류 해결
+          const participant = otherParticipant as any;
           setOtherUser({
-            id: otherParticipant.id,
-            nickname: otherParticipant.nickname,
-            avatar_url: otherParticipant.avatar_url
+            id: participant.id,
+            nickname: participant.nickname,
+            avatar_url: participant.avatar_url
           });
         }
 
