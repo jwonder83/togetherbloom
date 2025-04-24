@@ -9,8 +9,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { mockUsers } from '../../utils/mockUsers';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { RealtimeChannel } from '@supabase/supabase-js';
 
 type ChatRoom = {
   id: string;
@@ -21,7 +19,7 @@ type ChatRoom = {
     nickname: string;
     avatar_url: string | null;
   };
-  unread_count: number | undefined;
+  unread_count: number;
   is_virtual?: boolean;
 };
 
@@ -96,10 +94,9 @@ export default function ChatListPage() {
               if (profileError) throw profileError;
 
               // 안 읽은 메시지 수 찾기
-              const participatingRoom = participatingRooms.find(
+              const unreadCount = participatingRooms.find(
                 p => p.room_id === room.id
-              );
-              const unreadCount = participatingRoom?.unread_count ?? 0;
+              )?.unread_count || 0;
 
               return {
                 id: room.id,
@@ -147,7 +144,7 @@ export default function ChatListPage() {
     fetchChatRooms();
 
     // 실시간 메시지 구독
-    let subscription: RealtimeChannel | undefined;
+    let subscription: { unsubscribe: () => void } | undefined;
     if (user) {
       subscription = supabase
         .channel('chat_rooms_changes')
@@ -203,14 +200,7 @@ export default function ChatListPage() {
   // 시간 형식화 함수
   const formatTime = (timestamp: string) => {
     try {
-      // timestamp가 유효한지 확인
-      if (!timestamp) return '';
-      
-      const date = new Date(timestamp);
-      // 유효한 날짜인지 확인
-      if (isNaN(date.getTime())) return '';
-      
-      return formatDistanceToNow(date, { 
+      return formatDistanceToNow(new Date(timestamp), { 
         addSuffix: true,
         locale: ko
       });
@@ -254,7 +244,7 @@ export default function ChatListPage() {
           <h1 className="text-xl font-bold">채팅</h1>
         </div>
         <div className="flex items-center space-x-2">
-          <button className="text-gray-600 p-2">
+          <button className="text-gray-600 p-2" title="채팅 검색">
             <FaSearch size={18} />
           </button>
         </div>
@@ -312,9 +302,9 @@ export default function ChatListPage() {
                     </div>
                     <div className="flex justify-between items-center mt-1">
                       <p className="text-sm text-gray-600 truncate max-w-[200px]">{room.last_message}</p>
-                      {(room.unread_count ?? 0) > 0 && (
+                      {room.unread_count > 0 && (
                         <span className="ml-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
-                          {room.unread_count ?? 0}
+                          {room.unread_count}
                         </span>
                       )}
                     </div>

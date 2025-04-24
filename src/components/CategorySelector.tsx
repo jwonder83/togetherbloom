@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaCheckCircle, FaSearch } from 'react-icons/fa';
+import styles from './CategorySelector.module.css';
 
 // 카테고리 데이터
 const categories = [
@@ -11,55 +12,55 @@ const categories = [
     id: '1', 
     name: '여행', 
     imageUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    color: '#3B82F6' // 애플 블루 계열
+    colorClass: styles.categoryColor1 // CSS 모듈 클래스 참조
   },
   { 
     id: '2', 
     name: '요리', 
     imageUrl: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    color: '#FF3B30' // 애플 레드
+    colorClass: styles.categoryColor2
   },
   { 
     id: '3', 
     name: '독서', 
     imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
-    color: '#34C759' // 애플 그린
+    colorClass: styles.categoryColor3
   },
   { 
     id: '4', 
     name: '음악', 
     imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    color: '#AF52DE' // 애플 퍼플
+    colorClass: styles.categoryColor4
   },
   { 
     id: '5', 
     name: '운동', 
     imageUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    color: '#FF9500' // 애플 오렌지
+    colorClass: styles.categoryColor5
   },
   { 
     id: '6', 
     name: '개발', 
     imageUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    color: '#5856D6' // 애플 인디고
+    colorClass: styles.categoryColor6
   },
   { 
     id: '7', 
     name: '커리어', 
     imageUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
-    color: '#8E8E93' // 애플 그레이
+    colorClass: styles.categoryColor7
   },
   { 
     id: '8', 
     name: '예술', 
     imageUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1490&q=80',
-    color: '#FF2D55' // 애플 핑크
+    colorClass: styles.categoryColor8
   },
   { 
     id: '9', 
     name: '게임', 
     imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    color: '#5AC8FA' // 애플 라이트 블루
+    colorClass: styles.categoryColor9
   },
 ];
 
@@ -127,8 +128,7 @@ export default function CategorySelector() {
                 selectedCategories.includes(category.id) 
                   ? 'ring-2 ring-primary ring-offset-2 transform scale-105' 
                   : 'transform hover:scale-105'
-              }`}
-              style={{ backgroundColor: category.color }}
+              } ${category.colorClass}`}
             >
               <div className="relative w-full h-full">
                 <Image 

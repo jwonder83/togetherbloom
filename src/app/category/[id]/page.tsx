@@ -15,6 +15,13 @@ const categories = [
   { id: '9', name: '게임' },
 ];
 
+// 정적 내보내기를 위해 생성할 경로 지정
+export function generateStaticParams() {
+  return categories.map((category) => ({
+    id: category.id,
+  }));
+}
+
 interface CategoryPageProps {
   params: {
     id: string;

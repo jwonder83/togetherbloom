@@ -1,10 +1,5 @@
-'use client';
-
-import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import { FaArrowLeft, FaUser, FaMapMarkerAlt, FaRegCalendarAlt, FaComment, FaUsers, FaHeart, FaShareAlt, FaStar, FaEllipsisH, FaRegBookmark, FaBell } from 'react-icons/fa';
+import { ProfileClient } from './ProfileClient';
 
 // 샘플 회원 데이터
 const members = [
@@ -108,316 +103,33 @@ const members = [
   }
 ];
 
+// 정적 내보내기를 위해 생성할 경로 지정
+export function generateStaticParams() {
+  return members.map((member) => ({
+    id: member.id,
+  }));
+}
+
+function NotFound() {
+  return (
+    <div className="text-center p-4">
+      <h2 className="text-xl font-bold mb-2">회원을 찾을 수 없습니다.</h2>
+      <Link href="/" className="text-primary">
+        홈으로 돌아가기
+      </Link>
+    </div>
+  );
+}
+
+// 서버 컴포넌트
 export default function ProfilePage({ params }: { params: { id: string } }) {
   const userId = params.id;
   const member = members.find(m => m.id === userId);
-  const [activeTab, setActiveTab] = useState<'info' | 'groups' | 'reviews'>('info');
 
   // 회원을 찾을 수 없는 경우
   if (!member) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center p-4">
-            <h2 className="text-xl font-bold mb-2">회원을 찾을 수 없습니다.</h2>
-            <Link href="/" className="text-primary">
-              홈으로 돌아가기
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
-      
-      <main className="flex-1 max-w-4xl mx-auto w-full bg-white shadow-sm">
-        {/* 상단 네비게이션 */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3">
-          <div className="flex items-center">
-            <Link href="/members" className="text-gray-700 mr-4">
-              <FaArrowLeft size={18} />
-            </Link>
-            <h1 className="text-lg font-medium">프로필</h1>
-          </div>
-          <div className="flex items-center space-x-3">
-            <button className="text-gray-500 hover:text-gray-700">
-              <FaRegBookmark size={20} />
-            </button>
-            <button className="text-gray-500 hover:text-gray-700">
-              <FaBell size={20} />
-            </button>
-            <button className="text-gray-500 hover:text-gray-700">
-              <FaEllipsisH size={20} />
-            </button>
-          </div>
-        </div>
-        
-        {/* 프로필 헤더 */}
-        <div className="px-4 py-6 border-b border-gray-200">
-          <div className="flex items-start">
-            <div className="relative">
-              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md">
-                <Image
-                  src={member.profileImage}
-                  alt={member.name}
-                  width={80}
-                  height={80}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs shadow-md">
-                <FaStar size={12} />
-              </div>
-            </div>
-            
-            <div className="ml-4 flex-1">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h1 className="text-xl font-bold">{member.name}</h1>
-                  <p className="text-gray-500 text-sm">{member.level}</p>
-                </div>
-                <button className="bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-dark transition-colors">
-                  팔로우
-                </button>
-              </div>
-              
-              <div className="flex mt-4 space-x-4 text-center">
-                <div>
-                  <p className="font-bold">{member.posts}</p>
-                  <p className="text-xs text-gray-500">게시글</p>
-                </div>
-                <div>
-                  <p className="font-bold">{member.follower}</p>
-                  <p className="text-xs text-gray-500">팔로워</p>
-                </div>
-                <div>
-                  <p className="font-bold">{member.following}</p>
-                  <p className="text-xs text-gray-500">팔로잉</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-4">
-            <p className="text-gray-800 text-sm leading-relaxed">{member.bio}</p>
-          </div>
-          
-          <div className="mt-4 flex justify-between">
-            <div className="flex items-center text-sm text-gray-500">
-              <FaMapMarkerAlt className="mr-1" size={14} />
-              <span>{member.location}</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-500">
-              <FaRegCalendarAlt className="mr-1" size={14} />
-              <span>{member.joinDate} 가입</span>
-            </div>
-          </div>
-          
-          <div className="mt-4 flex">
-            <button className="flex-1 bg-primary text-white py-2.5 rounded-md text-sm font-medium hover:bg-primary-dark transition-colors mr-2">
-              <FaComment className="inline mr-2" size={14} />
-              메시지 보내기
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-md text-gray-500 hover:bg-gray-50">
-              <FaShareAlt size={16} />
-            </button>
-          </div>
-        </div>
-        
-        {/* 탭 메뉴 */}
-        <div className="border-b border-gray-200">
-          <div className="flex">
-            <button 
-              className={`px-4 py-3 text-center flex-1 font-medium border-b-2 ${
-                activeTab === 'info' 
-                  ? 'border-primary text-primary' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
-              }`}
-              onClick={() => setActiveTab('info')}
-            >
-              정보
-            </button>
-            <button 
-              className={`px-4 py-3 text-center flex-1 font-medium border-b-2 ${
-                activeTab === 'groups' 
-                  ? 'border-primary text-primary' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
-              }`}
-              onClick={() => setActiveTab('groups')}
-            >
-              참여 모임
-            </button>
-            <button 
-              className={`px-4 py-3 text-center flex-1 font-medium border-b-2 ${
-                activeTab === 'reviews' 
-                  ? 'border-primary text-primary' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
-              }`}
-              onClick={() => setActiveTab('reviews')}
-            >
-              후기 ({member.reviewCount || 0})
-            </button>
-          </div>
-        </div>
-        
-        {/* 탭 내용 */}
-        <div className="p-4">
-          {activeTab === 'info' && (
-            <div>
-              <div className="border rounded-lg mb-4 overflow-hidden">
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
-                  <h3 className="font-medium">회원 정보</h3>
-                </div>
-                <div className="p-4 space-y-3">
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-500">활동 온도</span>
-                    <span className="font-medium text-primary">{member.temperature}°C</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-500">응답률</span>
-                    <span className="font-medium">{member.responseRate}%</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b border-gray-100">
-                    <span className="text-gray-500">최근 활동</span>
-                    <span className="font-medium">{member.lastActive}</span>
-                  </div>
-                  <div className="flex justify-between py-2">
-                    <span className="text-gray-500">활동 수준</span>
-                    <span className="font-medium">{member.activityLevel}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="border rounded-lg overflow-hidden">
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
-                  <h3 className="font-medium">관심 키워드</h3>
-                </div>
-                <div className="p-4">
-                  <div className="flex flex-wrap gap-2">
-                    {member.keywords.map(keyword => (
-                      <span 
-                        key={keyword} 
-                        className="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-full text-xs font-medium"
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {activeTab === 'groups' && (
-            <div>
-              {member.groups.length > 0 ? (
-                <ul className="space-y-3">
-                  {member.groups.map((group, index) => (
-                    <li key={index} className="border rounded-lg overflow-hidden">
-                      <Link 
-                        href={`/group/${index + 1}`} 
-                        className="block"
-                      >
-                        <div className="p-4">
-                          <div className="flex items-center">
-                            <div className="w-14 h-14 bg-blue-100 rounded-md flex items-center justify-center text-blue-500 mr-3">
-                              <FaUsers size={24} />
-                            </div>
-                            <div>
-                              <h3 className="font-medium">{group}</h3>
-                              <p className="text-sm text-gray-500 mt-1">활동 중</p>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-sm text-gray-600">
-                            함께하는 멤버들과 다양한 활동을 공유하고 있습니다.
-                          </p>
-                        </div>
-                        <div className="bg-gray-50 px-4 py-3 border-t border-gray-200 flex justify-between items-center">
-                          <span className="text-xs text-gray-500">최근 활동: 오늘</span>
-                          <span className="text-primary text-sm">자세히 보기</span>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-center py-10">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <FaUsers className="text-gray-400" size={24} />
-                  </div>
-                  <h3 className="text-lg font-medium text-gray-800 mb-2">참여 중인 모임이 없습니다</h3>
-                  <p className="text-gray-500 mb-6">새로운 모임에 참여해보세요!</p>
-                  <Link 
-                    href="/groups" 
-                    className="bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-dark transition-colors"
-                  >
-                    모임 찾아보기
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {activeTab === 'reviews' && (
-            <div>
-              <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <div className="text-3xl font-bold text-primary mr-3">{member.reviewScore || 0}</div>
-                  <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} size={16} className={i < Math.floor(member.reviewScore || 0) ? 'text-yellow-400' : 'text-gray-300'} />
-                    ))}
-                  </div>
-                </div>
-                <p className="text-sm text-gray-500">총 {member.reviewCount || 0}개의 후기</p>
-              </div>
-              
-              <div className="space-y-4">
-                {[...Array(3)].map((_, index) => (
-                  <div key={index} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
-                          <Image
-                            src={`https://i.pravatar.cc/300?img=${10 + index}`}
-                            alt="리뷰어"
-                            width={40}
-                            height={40}
-                            className="object-cover"
-                          />
-                        </div>
-                        <div>
-                          <p className="font-medium">사용자{index + 1}</p>
-                          <div className="flex text-yellow-400 mt-0.5">
-                            {[...Array(5)].map((_, i) => (
-                              <FaStar key={i} size={12} className={i < 5 - index ? 'text-yellow-400' : 'text-gray-300'} />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-xs text-gray-500">{index + 1}주 전</p>
-                    </div>
-                    <p className="text-gray-700 text-sm">
-                      {index === 0 && '아주 친절하고 전문적인 멤버입니다. 많은 도움을 받았어요!'}
-                      {index === 1 && '모임에서 항상 좋은 에너지를 전달해주셔서 감사합니다.'}
-                      {index === 2 && '약속 시간을 잘 지키고 소통도 원활했습니다.'}
-                    </p>
-                  </div>
-                ))}
-                {(member.reviewCount || 0) > 3 && (
-                  <button className="w-full py-3 text-center border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50">
-                    더 보기 ({(member.reviewCount || 0) - 3})
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </main>
-    </div>
-  );
+  return <ProfileClient member={member} />;
 } 

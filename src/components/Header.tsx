@@ -6,11 +6,12 @@ import Image from 'next/image';
 import { 
   FaUser, FaBell, FaBars, FaTimes, FaHome, FaList, 
   FaComments, FaUsers, FaSignOutAlt, FaSignInAlt, 
-  FaUserPlus, FaSearch, FaPlus 
+  FaUserPlus, FaSearch, FaPlus
 } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import supabase from '../utils/supabase';
+import headerStyles from './Header.module.css';
 
 // 스타일 정의
 const styles = {
@@ -21,7 +22,6 @@ const styles = {
   lightBg: '#F7F9FC',
   darkText: '#1A2A3A',
   lightText: '#EAEEF3',
-  red: '#E53E3E',
   gradient: 'linear-gradient(135deg, #23395B, #345689)',
   logoGradient: 'linear-gradient(to right, #23395B, #3066BE, #FFD700)',
   cardShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
@@ -166,36 +166,24 @@ export default function Header() {
   return (
     <>
       <header 
-        className={`flex justify-between items-center py-3 px-4 lg:px-8 border-b sticky top-0 z-20 transition-all duration-300 ${
-          isScrolled ? 'py-2' : 'py-3'
+        className={`flex justify-between items-center py-3 px-4 lg:px-8 border-b sticky top-0 z-20 transition-all duration-300 bg-white header-border-top ${
+          isScrolled ? 'py-2 header-shadow-md' : 'py-3 header-shadow-sm'
         }`}
-        style={{ 
-          background: 'white',
-          borderColor: 'rgba(35, 57, 91, 0.1)',
-          boxShadow: isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.05)'
-        }}
       >
         <div className="flex items-center">
           <div className="text-xl font-bold tracking-tight mr-6">
             <Link href="/" className="flex items-center">
               <span
-                className="relative inline-block font-extrabold text-transparent bg-clip-text animate-pulse"
-                style={{ 
-                  backgroundImage: styles.logoGradient,
-                  animationDuration: '3s'
-                }}
+                className={`relative inline-block font-extrabold text-transparent bg-clip-text animate-pulse header-logo-gradient ${headerStyles.logoAnimation}`}
               >
                 Together
               </span>
               <span
-                className="text-navy font-black"
-                style={{ color: styles.navy }}
+                className="font-black header-navy-text"
               >
                 Bloom
               </span>
-              <span className="ml-1 w-2 h-2 rounded-full bg-gold animate-ping hidden sm:inline-block"
-                style={{ backgroundColor: styles.gold }}
-              ></span>
+              <span className="ml-1 w-2 h-2 rounded-full header-gold-bg animate-ping hidden sm:inline-block"></span>
             </Link>
           </div>
           
@@ -203,49 +191,33 @@ export default function Header() {
           <nav className="hidden md:flex space-x-1">
             <Link 
               href="/" 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-navy-text ${
                 pathname === '/' ? 'bg-opacity-10 font-semibold' : 'hover:bg-opacity-5'
-              }`}
-              style={{ 
-                color: styles.navy,
-                backgroundColor: pathname === '/' ? `${styles.navy}10` : 'transparent'
-              }}
+              } ${pathname === '/' ? 'header-navy-10-bg' : ''}`}
             >
               홈
             </Link>
             <Link 
               href="/category" 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-navy-text ${
                 pathname === '/category' ? 'bg-opacity-10 font-semibold' : 'hover:bg-opacity-5'
-              }`}
-              style={{ 
-                color: styles.navy,
-                backgroundColor: pathname === '/category' ? `${styles.navy}10` : 'transparent'
-              }}
+              } ${pathname === '/category' ? 'header-navy-10-bg' : ''}`}
             >
               카테고리
             </Link>
             <Link 
               href="/match" 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-navy-text ${
                 pathname === '/match' ? 'bg-opacity-10 font-semibold' : 'hover:bg-opacity-5'
-              }`}
-              style={{ 
-                color: styles.navy,
-                backgroundColor: pathname === '/match' ? `${styles.navy}10` : 'transparent'
-              }}
+              } ${pathname === '/match' ? 'header-navy-10-bg' : ''}`}
             >
               매칭
             </Link>
             <Link 
               href="/group" 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-navy-text ${
                 pathname === '/group' ? 'bg-opacity-10 font-semibold' : 'hover:bg-opacity-5'
-              }`}
-              style={{ 
-                color: styles.navy,
-                backgroundColor: pathname === '/group' ? `${styles.navy}10` : 'transparent'
-              }}
+              } ${pathname === '/group' ? 'header-navy-10-bg' : ''}`}
             >
               모임
             </Link>
@@ -255,12 +227,10 @@ export default function Header() {
         <div className="flex items-center space-x-3">
           {/* 검색 버튼 */}
           <button 
-            className="search-button flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 md:mr-1 hover:bg-gray-200"
+            className="search-button flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 md:mr-1 header-navy-text"
             aria-label="검색"
             onClick={toggleSearch}
-            style={{
-              color: styles.navy
-            }}
+            title="검색"
           >
             <FaSearch size={16} />
           </button>
@@ -269,11 +239,7 @@ export default function Header() {
           {user && (
             <Link
               href="/create-group"
-              className="hidden md:flex items-center justify-center h-9 px-4 rounded-lg text-sm font-medium transition-all duration-200"
-              style={{
-                background: styles.gradient,
-                color: 'white',
-              }}
+              className="hidden md:flex items-center justify-center h-9 px-4 rounded-lg text-sm font-medium transition-all duration-200 header-gradient-bg header-white-text"
             >
               <FaPlus size={12} className="mr-2" />
               새 모임
@@ -284,17 +250,13 @@ export default function Header() {
           {user && (
             <Link 
               href="/notifications" 
-              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 hover:bg-gray-200 relative"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 relative header-navy-text"
               aria-label="알림"
-              style={{
-                color: styles.navy
-              }}
             >
               <FaBell size={18} />
               {hasNotifications && (
                 <span 
-                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-white text-xs animate-pulse"
-                  style={{ backgroundColor: '#FF3B30' }}
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-white text-xs animate-pulse header-notification-badge"
                 ></span>
               )}
             </Link>
@@ -303,13 +265,10 @@ export default function Header() {
           {/* 프로필 버튼 (로그인 시에만) */}
           {user ? (
             <button 
-              className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden transition-all duration-200 hover:opacity-90 border-2"
+              className={`relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden transition-all duration-200 hover:opacity-90 border-2 header-profile-shadow ${hasNotifications ? 'header-gold-border' : 'header-transparent-border'}`}
               aria-label="프로필 메뉴"
               onClick={toggleMenu}
-              style={{
-                borderColor: hasNotifications ? styles.gold : 'transparent',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
-              }}
+              title="프로필 메뉴"
             >
               {profileImage ? (
                 <Image 
@@ -320,21 +279,17 @@ export default function Header() {
                   className="object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center"
-                  style={{ background: styles.gradient }}
-                >
+                <div className="w-full h-full flex items-center justify-center header-gradient-bg">
                   <FaUser size={16} className="text-white" />
                 </div>
               )}
             </button>
           ) : (
             <button 
-              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 hover:bg-gray-200"
+              className="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:bg-opacity-10 header-navy-text"
               aria-label="메뉴"
               onClick={toggleMenu}
-              style={{
-                color: styles.navy
-              }}
+              title="메뉴"
             >
               <FaBars size={18} />
             </button>
@@ -346,15 +301,11 @@ export default function Header() {
       {isSearchOpen && (
         <div 
           ref={searchRef}
-          className="fixed top-16 left-0 right-0 z-30 px-4 md:px-0 md:absolute md:top-16 md:right-4 md:left-auto md:w-full md:max-w-md transform transition-all duration-300"
-          style={{
-            animation: 'fadeInDown 0.3s ease-out'
-          }}
+          className="fixed top-16 left-0 right-0 z-30 px-4 md:px-0 md:absolute md:top-16 md:right-4 md:left-auto md:w-full md:max-w-md transform transition-all duration-300 header-animation-fadeInDown"
         >
           <form 
             onSubmit={handleSearch}
-            className="bg-white rounded-xl shadow-lg overflow-hidden p-1"
-            style={{ boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)' }}
+            className="bg-white rounded-xl overflow-hidden p-1 header-search-shadow"
           >
             <div className="flex items-center">
               <input
@@ -367,11 +318,8 @@ export default function Header() {
               />
               <button 
                 type="submit"
-                className="p-3 m-1 rounded-lg transition-all duration-200"
-                style={{
-                  backgroundColor: styles.navy,
-                  color: 'white'
-                }}
+                className="p-3 m-1 rounded-lg transition-all duration-200 header-navy-bg header-white-text"
+                title="검색"
               >
                 <FaSearch size={14} />
               </button>
@@ -383,40 +331,26 @@ export default function Header() {
       {/* 사이드 메뉴 (햄버거 메뉴) */}
       <div 
         ref={menuRef}
-        className={`fixed top-0 right-0 z-50 h-full w-72 lg:w-80 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 z-50 h-full w-72 lg:w-80 transform transition-transform duration-300 ease-in-out bg-white header-menu-shadow ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        style={{ 
-          background: 'white',
-          boxShadow: styles.menuShadow
-        }}
       >
         <div className="p-6 flex flex-col h-full">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-xl font-bold" style={{ color: styles.navy }}>메뉴</h2>
+            <h2 className="text-xl font-bold header-navy-text">메뉴</h2>
             <button 
-              className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 hover:bg-gray-200"
+              className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 header-navy-text"
               onClick={() => setIsMenuOpen(false)}
-              style={{
-                color: styles.navy
-              }}
+              title="메뉴 닫기"
             >
               <FaTimes size={18} />
             </button>
           </div>
 
           {user ? (
-            <div className="mb-6 p-4 rounded-xl" style={{ 
-              backgroundColor: styles.lightBg,
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-              backgroundImage: 'linear-gradient(135deg, #F7F9FC, #EDF2F7)'
-            }}>
+            <div className="mb-6 p-4 rounded-xl header-profile-bg">
               <div className="flex items-center">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center text-white overflow-hidden"
-                  style={{ 
-                    background: styles.gradient,
-                    boxShadow: '0 4px 10px rgba(35, 57, 91, 0.2)' 
-                  }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center text-white overflow-hidden header-profile-icon-box">
                   {profileImage ? (
                     <Image 
                       src={profileImage} 
@@ -430,14 +364,13 @@ export default function Header() {
                   )}
                 </div>
                 <div className="ml-3">
-                  <p className="font-semibold text-lg" style={{ color: styles.darkText }}>
+                  <p className="font-semibold text-lg header-dark-text">
                     {nickname || user.email?.split('@')[0]}
                   </p>
                   <Link 
                     href="/profile" 
-                    className="text-sm hover:underline inline-flex items-center"
+                    className="text-sm hover:underline inline-flex items-center header-navy-text"
                     onClick={() => setIsMenuOpen(false)}
-                    style={{ color: styles.navy }}
                   >
                     <span>프로필 보기</span>
                     <span className="ml-1 text-xs">➔</span>
@@ -449,25 +382,16 @@ export default function Header() {
             <div className="mb-8 flex flex-col gap-3">
               <Link 
                 href="/login" 
-                className="flex items-center justify-center font-medium py-3 px-4 rounded-xl transition-all duration-200 w-full"
+                className="flex items-center justify-center font-medium py-3 px-4 rounded-xl transition-all duration-200 w-full header-gradient-bg header-white-text header-btn-shadow"
                 onClick={() => setIsMenuOpen(false)}
-                style={{ 
-                  background: styles.gradient,
-                  color: 'white',
-                  boxShadow: '0 4px 10px rgba(35, 57, 91, 0.2)' 
-                }}
               >
                 <FaSignInAlt className="mr-2" size={16} />
                 로그인
               </Link>
               <Link 
                 href="/register" 
-                className="flex items-center justify-center font-medium py-3 px-4 rounded-xl border transition-all duration-200 w-full hover:bg-blue-50"
+                className="flex items-center justify-center font-medium py-3 px-4 rounded-xl border transition-all duration-200 w-full hover:bg-gray-50 header-navy-text header-navy-border"
                 onClick={() => setIsMenuOpen(false)}
-                style={{ 
-                  color: styles.navy,
-                  borderColor: styles.navy
-                }}
               >
                 <FaUserPlus className="mr-2" size={16} />
                 회원가입
@@ -480,80 +404,60 @@ export default function Header() {
               <li>
                 <Link 
                   href="/" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 header-dark-text ${
                     pathname === '/' ? 'bg-opacity-15 font-medium' : ''
-                  }`}
+                  } ${pathname === '/' ? 'header-navy-10-bg' : ''}`}
                   onClick={() => setIsMenuOpen(false)}
-                  style={{ 
-                    color: styles.darkText,
-                    backgroundColor: pathname === '/' ? `${styles.navy}10` : 'transparent'
-                  }}
                 >
-                  <FaHome className="mr-3" style={{ color: styles.navy }} />
+                  <FaHome className="mr-3 header-navy-text" />
                   <span>홈</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/category" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 header-dark-text ${
                     pathname === '/category' ? 'bg-opacity-15 font-medium' : ''
-                  }`}
+                  } ${pathname === '/category' ? 'header-navy-10-bg' : ''}`}
                   onClick={() => setIsMenuOpen(false)}
-                  style={{ 
-                    color: styles.darkText,
-                    backgroundColor: pathname === '/category' ? `${styles.navy}10` : 'transparent'
-                  }}
                 >
-                  <FaList className="mr-3" style={{ color: styles.navy }} />
+                  <FaList className="mr-3 header-navy-text" />
                   <span>카테고리</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/chat" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 header-dark-text ${
                     pathname === '/chat' ? 'bg-opacity-15 font-medium' : ''
-                  }`}
+                  } ${pathname === '/chat' ? 'header-navy-10-bg' : ''}`}
                   onClick={() => setIsMenuOpen(false)}
-                  style={{ 
-                    color: styles.darkText,
-                    backgroundColor: pathname === '/chat' ? `${styles.navy}10` : 'transparent'
-                  }}
                 >
-                  <FaComments className="mr-3" style={{ color: styles.navy }} />
+                  <FaComments className="mr-3 header-navy-text" />
                   <span>채팅</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/match" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 header-dark-text ${
                     pathname === '/match' ? 'bg-opacity-15 font-medium' : ''
-                  }`}
+                  } ${pathname === '/match' ? 'header-navy-10-bg' : ''}`}
                   onClick={() => setIsMenuOpen(false)}
-                  style={{ 
-                    color: styles.darkText,
-                    backgroundColor: pathname === '/match' ? `${styles.navy}10` : 'transparent'
-                  }}
                 >
-                  <FaUsers className="mr-3" style={{ color: styles.navy }} />
+                  <FaUsers className="mr-3 header-navy-text" />
                   <span>매칭</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/group" 
-                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-gray-100 ${
+                  className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 header-dark-text ${
                     pathname === '/group' ? 'bg-opacity-15 font-medium' : ''
-                  }`}
+                  } ${pathname === '/group' ? 'header-navy-10-bg' : ''}`}
                   onClick={() => setIsMenuOpen(false)}
-                  style={{ 
-                    color: styles.darkText,
-                    backgroundColor: pathname === '/group' ? `${styles.navy}10` : 'transparent'
-                  }}
                 >
-                  <FaUsers className="mr-3" style={{ color: styles.navy }} />
+                  <FaUsers className="mr-3 header-navy-text" />
                   <span>모임</span>
                 </Link>
               </li>
@@ -561,19 +465,12 @@ export default function Header() {
                 <li>
                   <Link 
                     href="/my-groups" 
-                    className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 hover:bg-yellow-100 ${
+                    className={`flex items-center py-3 px-4 rounded-xl my-1 transition-all duration-200 header-dark-text ${
                       pathname === '/my-groups' ? 'bg-opacity-25 font-medium' : ''
-                    }`}
+                    } ${pathname === '/my-groups' ? 'header-gold-30-bg' : 'header-gold-15-bg'} border header-gold-border`}
                     onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                      color: styles.darkText,
-                      backgroundColor: pathname === '/my-groups' 
-                        ? `${styles.gold}30` 
-                        : `${styles.gold}15`,
-                      border: `1px solid ${styles.gold}`
-                    }}
                   >
-                    <FaUsers className="mr-3" style={{ color: styles.gold }} />
+                    <FaUsers className="mr-3 header-gold-text" />
                     <span className="font-medium">내 모임</span>
                   </Link>
                 </li>
@@ -584,15 +481,11 @@ export default function Header() {
           {user && (
             <div className="mt-auto pt-4">
               <button 
-                className="flex items-center py-3 px-4 rounded-lg hover:bg-red-50 transition-all duration-200 w-full text-left"
+                className="flex items-center py-3 px-4 w-full rounded-xl transition-all duration-200 header-error-text header-error-bg"
                 onClick={handleLogout}
-                style={{
-                  color: styles.red,
-                  marginTop: 'auto'
-                }}
               >
-                <FaSignOutAlt className="mr-3" size={18} />
-                <span>로그아웃</span>
+                <FaSignOutAlt className="mr-3" />
+                로그아웃
               </button>
             </div>
           )}
@@ -602,35 +495,13 @@ export default function Header() {
       {/* 배경 오버레이 (메뉴가 열려있을 때만 표시) */}
       {(isMenuOpen || isSearchOpen) && (
         <div 
-          className={`fixed inset-0 z-40 transition-opacity duration-300 ${isMenuOpen ? 'backdrop-filter backdrop-blur-sm' : ''}`}
-          style={{ 
-            backgroundColor: isMenuOpen ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.1)',
-            animation: 'fadeIn 0.3s ease-out'
-          }}
+          className={`fixed inset-0 z-40 transition-opacity duration-300 ${isMenuOpen ? 'backdrop-filter backdrop-blur-sm header-backdrop' : 'header-backdrop-light'}`}
           onClick={() => {
             setIsMenuOpen(false);
             setIsSearchOpen(false);
           }}
         />
       )}
-
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </>
   );
 } 

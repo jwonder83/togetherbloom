@@ -1,0 +1,55 @@
+/* 친밀도 점수 표시를 위한 원형 진행 표시기 */
+.scoreCircle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid var(--primary-color);
+}
+
+/* 다양한 친밀도 점수에 따른 클래스들 */
+.score0 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 24 24');
+}
+
+.score10 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 18 34 L 24 24');
+}
+
+.score20 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 13 40 L 24 24');
+}
+
+.score30 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 10 42 L 24 24');
+}
+
+.score40 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 24 44 L 24 24');
+}
+
+.score50 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 37 42 L 24 24');
+}
+
+.score60 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 42 35 L 24 24');
+}
+
+.score70 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 44 25 L 24 24');
+}
+
+.score80 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 44 10 L 24 24');
+}
+
+.score90 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 M 24 24 L 4 24 L 24 4 L 24 24');
+}
+
+.score100 {
+  clip-path: path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40');
+} 

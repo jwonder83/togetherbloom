@@ -9,8 +9,6 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { mockUsers, generateMockMessages, generateVirtualUserResponse } from '../../../utils/mockUsers';
-import { createClient } from '@supabase/supabase-js';
-import { RealtimeChannel } from '@supabase/supabase-js';
 
 type Message = {
   id: string;
@@ -207,7 +205,7 @@ export default function ChatRoomPage({ params }: { params: { id: string } }) {
     fetchChatRoomData();
 
     // 실제 채팅방인 경우에만 실시간 메시지 구독
-    let subscription: RealtimeChannel | undefined;
+    let subscription: { unsubscribe: () => void } | undefined;
     
     if (currentRoomId && !currentRoomId.startsWith('room-')) {
       subscription = supabase
@@ -386,7 +384,7 @@ export default function ChatRoomPage({ params }: { params: { id: string } }) {
       {/* 헤더 */}
       <header className="flex justify-between items-center p-4 border-b border-gray-200">
         <div className="flex items-center">
-          <Link href="/chat" className="text-gray-600 mr-4">
+          <Link href="/chat" className="text-gray-600 mr-4" title="채팅 목록으로 돌아가기">
           <FaArrowLeft size={18} />
         </Link>
           {isLoading ? (
@@ -535,6 +533,7 @@ export default function ChatRoomPage({ params }: { params: { id: string } }) {
             type="submit"
             disabled={!message.trim()}
             className="ml-2 w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full disabled:opacity-50"
+            title="메시지 전송"
           >
             <FaPaperPlane size={16} />
           </button>

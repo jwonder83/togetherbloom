@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaCircle } from 'react-icons/fa';
+import styles from './MatchingUserCard.module.css';
 
 interface MatchingUserCardProps {
   user: {
@@ -21,6 +22,13 @@ export default function MatchingUserCard({ user }: MatchingUserCardProps) {
     if (score >= 60) return 'text-primary';
     if (score >= 40) return 'text-yellow-500';
     return 'text-gray-400';
+  };
+
+  // 점수에 따른 적절한 CSS 클래스 선택
+  const getScoreClass = (score: number) => {
+    // 점수를 10단위로 반올림하여 해당하는 클래스 선택
+    const roundedScore = Math.round(score / 10) * 10;
+    return styles[`score${roundedScore}`] || styles.score0;
   };
 
   return (
@@ -46,10 +54,7 @@ export default function MatchingUserCard({ user }: MatchingUserCardProps) {
           <div className="relative w-12 h-12 flex items-center justify-center">
             <div className="w-full h-full rounded-full border-4 border-gray-200"></div>
             <div 
-              className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-primary"
-              style={{
-                clipPath: `path('M 24 24 m 0, -20 a 20,20 0 1,1 0,40 a 20,20 0 1,1 0,-40 ${user.compatibilityScore >= 100 ? '' : `M 24 24 L ${20 + 20 * Math.cos((user.compatibilityScore / 100) * Math.PI * 2)} ${20 + 20 * Math.sin((user.compatibilityScore / 100) * Math.PI * 2)} L 24 24`}')`,
-              }}
+              className={`absolute top-0 left-0 w-full h-full rounded-full border-4 border-primary ${getScoreClass(user.compatibilityScore)}`}
             ></div>
             <span className={`absolute text-sm font-bold ${getScoreColor(user.compatibilityScore)}`}>
               {user.compatibilityScore}
