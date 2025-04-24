@@ -21,7 +21,7 @@ type ChatRoom = {
     nickname: string;
     avatar_url: string | null;
   };
-  unread_count: number;
+  unread_count: number | undefined;
   is_virtual?: boolean;
 };
 
@@ -96,9 +96,10 @@ export default function ChatListPage() {
               if (profileError) throw profileError;
 
               // 안 읽은 메시지 수 찾기
-              const unreadCount = participatingRooms.find(
+              const participatingRoom = participatingRooms.find(
                 p => p.room_id === room.id
-              )?.unread_count || 0;
+              );
+              const unreadCount = participatingRoom?.unread_count ?? 0;
 
               return {
                 id: room.id,
@@ -202,7 +203,14 @@ export default function ChatListPage() {
   // 시간 형식화 함수
   const formatTime = (timestamp: string) => {
     try {
-      return formatDistanceToNow(new Date(timestamp), { 
+      // timestamp가 유효한지 확인
+      if (!timestamp) return '';
+      
+      const date = new Date(timestamp);
+      // 유효한 날짜인지 확인
+      if (isNaN(date.getTime())) return '';
+      
+      return formatDistanceToNow(date, { 
         addSuffix: true,
         locale: ko
       });
@@ -304,9 +312,9 @@ export default function ChatListPage() {
                     </div>
                     <div className="flex justify-between items-center mt-1">
                       <p className="text-sm text-gray-600 truncate max-w-[200px]">{room.last_message}</p>
-                      {room.unread_count > 0 && (
+                      {(room.unread_count ?? 0) > 0 && (
                         <span className="ml-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
-                          {room.unread_count}
+                          {room.unread_count ?? 0}
                         </span>
                       )}
                     </div>
