@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, ChangeEvent } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Link from 'next/link';
@@ -221,9 +221,9 @@ function SearchResults() {
             <input 
               type="range" 
               id="min-members-range"
-              min="0" 
-              max="300" 
-              step="50" 
+              min={0}
+              max={300}
+              step={50}
               value={filters.minMembers} 
               onChange={(e) => setFilters({...filters, minMembers: parseInt(e.target.value)})}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
