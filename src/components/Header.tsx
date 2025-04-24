@@ -21,6 +21,7 @@ const styles = {
   lightBg: '#F7F9FC',
   darkText: '#1A2A3A',
   lightText: '#EAEEF3',
+  red: '#E53E3E',
   gradient: 'linear-gradient(135deg, #23395B, #345689)',
   logoGradient: 'linear-gradient(to right, #23395B, #3066BE, #FFD700)',
   cardShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
